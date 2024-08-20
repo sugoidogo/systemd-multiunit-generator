@@ -60,7 +60,7 @@ def generate_from(name:str,source_unit:ConfigParser,config:ConfigParser):
         generated_units[file_name]=generated_unit
     return generated_units
 
-def generate_units(source_dir,dest_dir,config):
+def generate_units(source_dir,dest_dir,config,dry_run=False):
     import os,sys
 
     if not os.path.exists(source_dir):
@@ -77,6 +77,8 @@ def generate_units(source_dir,dest_dir,config):
             unit_path=os.path.join(dest_dir,unit_name)
             print(unit_path)
             generated_units[unit_name].write(sys.stdout)
+            if dry_run:
+                continue
             with open(unit_path,'w') as file:
                 file.write('#'+__file__+'\n\n')
                 generated_units[unit_name].set('Unit','SourcePath',os.path.abspath(path))
@@ -181,18 +183,18 @@ def main(args):
         args.early_unit_source=os.path.expandvars(config.get('GENERATOR','Early'+scope.capitalize()+'UnitSource'))
         args.late_unit_source=os.path.expandvars(config.get('GENERATOR','Late'+scope.capitalize()+'UnitSource'))
 
-    if args.early_unit_source and args.early_unit_dest:
-        generate_units(args.early_unit_source,args.early_unit_dest,config)
+    if args.early_unit_source and (args.early_unit_dest or args.dry_run):
+        generate_units(args.early_unit_source,args.early_unit_dest,config,args.dry_run)
     else:
         print('missing early unit source/dest, skipping')
 
-    if args.normal_unit_source and args.normal_unit_dest:
-        generate_units(args.normal_unit_source,args.normal_unit_dest,config)
+    if args.normal_unit_source and (args.normal_unit_dest or args.dry_run):
+        generate_units(args.normal_unit_source,args.normal_unit_dest,config,args.dry_run)
     else:
         print('missing normal unit source/dest, skipping')
 
-    if args.late_unit_source and args.late_unit_dest:
-        generate_units(args.late_unit_source,args.late_unit_dest,config)
+    if args.late_unit_source and (args.late_unit_dest or args.dry_run):
+        generate_units(args.late_unit_source,args.late_unit_dest,config,args.dry_run)
     else:
         print('missing late unit source/dest, skipping')
 
