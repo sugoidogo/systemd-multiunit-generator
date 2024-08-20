@@ -1,0 +1,10 @@
+[Mount]
+Description=shared storage mount
+What=//host/shared
+Where=/mnt/shared
+Type=cifs
+Options=guest,uid=1000,gid=1000
+
+[Automount]
+Where=/mnt/shared
+WantedBy=remote-fs.target

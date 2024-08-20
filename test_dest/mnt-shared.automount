@@ -1,0 +1,11 @@
+#/mnt/racknerd/home/sugoidogo/systemd-multiunit-generator/./systemd-multiunit-generator.py
+
+[Unit]
+SourcePath = /mnt/racknerd/home/sugoidogo/systemd-multiunit-generator/test_source/shared-mount.unit
+
+[Automount]
+Where = /mnt/shared
+
+[Install]
+WantedBy = remote-fs.target
+

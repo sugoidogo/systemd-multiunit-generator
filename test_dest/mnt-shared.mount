@@ -1,0 +1,14 @@
+#/mnt/racknerd/home/sugoidogo/systemd-multiunit-generator/./systemd-multiunit-generator.py
+
+[Unit]
+Description = shared storage mount
+SourcePath = /mnt/racknerd/home/sugoidogo/systemd-multiunit-generator/test_source/shared-mount.unit
+
+[Mount]
+What = //host/shared
+Where = /mnt/shared
+Type = cifs
+Options = guest,uid=1000,gid=1000
+
+[Install]
+
